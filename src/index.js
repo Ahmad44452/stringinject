@@ -13,11 +13,18 @@ export default function stringInject(str, data) {
         for (let key in data) {
             return str.replace(/({([^}]+)})/g, function(i) {
                 let key = i.replace(/{/, '').replace(/}/, '');
-                if (!data[key]) {
-                    return i;
-                }
+                if(key.includes(".")){
+                  const nestedValue = key.split('.').reduce((acc, segment) => acc && acc[segment], data);
+                  return nestedValue || i;
+                }else{
+                  if (!data[key]) {
+                     return i;
+                  }
 
-                return data[key];
+                  return data[key];
+
+               }
+                
             });
         }
     } else if (typeof str === 'string' && data instanceof Array === false || typeof str === 'string' && data instanceof Object === false) {

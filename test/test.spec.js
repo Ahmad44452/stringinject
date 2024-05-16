@@ -33,6 +33,27 @@ describe("replace object values based on their keys", function() {
         expect(str).to.equal("My username is tjcafferkey on GitHub");
     });
 
+    it("replace object values based on one nested key", function() {
+      var str = stringInject("My username is {profile.username}", { profile: { username: "tjcafferkey" } });
+      console.log(str)
+      expect(str).to.equal("My username is tjcafferkey");
+    });
+
+    it("replace object values based on two nested keys", function() {
+      var str = stringInject("My username is {profile.username} on {profile.platform}", { profile: { username: "tjcafferkey", platform: "GitHub" } });
+      expect(str).to.equal("My username is tjcafferkey on GitHub");
+    });
+
+    it("replace object values based on one simple key and one nested key", function() {
+      var str = stringInject("My username is {username} on {source.platform}", { username: "tjcafferkey", source: { platform: "GitHub" }  });
+      expect(str).to.equal("My username is tjcafferkey on GitHub");
+    });
+
+    it("replace object values based on one simple key and one invalid nested key", function() {
+      var str = stringInject("My username is {username} on {source.platform}", { username: "tjcafferkey", platform: "GitHub"  });
+      expect(str).to.equal("My username is tjcafferkey on {source.platform}");
+    });
+
     it("replace object values based on two keys in reverse order", function() {
         var str = stringInject("My username is {platform} on {username}", { username: "tjcafferkey", platform: "GitHub" });
         expect(str).to.equal("My username is GitHub on tjcafferkey");
