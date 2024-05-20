@@ -35,7 +35,6 @@ describe("replace object values based on their keys", function() {
 
     it("replace object values based on one nested key", function() {
       var str = stringInject("My username is {profile.username}", { profile: { username: "tjcafferkey" } });
-      console.log(str)
       expect(str).to.equal("My username is tjcafferkey");
     });
 
